@@ -212,6 +212,9 @@ vjs.TextTrack.prototype.load = function(){
             // And if it's turkish, it's iso-8859-9
             dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-9'), targetEncodingCharset );
           }
+          else if ( language == 'bulgarian' ) {
+            dataBuff = iconv.encode( iconv.decode(dataBuff, 'windows-1251'), targetEncodingCharset );
+          }
           else {
             // Or else, it's ISO-8859-1 by default
             dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
@@ -232,10 +235,10 @@ vjs.TextTrack.prototype.load = function(){
       var path = require('path');
       if (path.extname(this_.src_) === '.zip') {
         decompress(dataBuf, function(dataBuf) {
-          decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+          decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
         });
       } else {
-        decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+        decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
       }
     });
 
